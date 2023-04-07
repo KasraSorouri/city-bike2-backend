@@ -4,6 +4,7 @@ const http = require('http')
 
 const config = require('./utils/config')
 const logger = require('./utils/logger')
+const fileReader = require('./controllers/fileReader')
 
 const { ApolloServer } = require('@apollo/server')
 const { expressMiddleware } = require('@apollo/server/express4')
@@ -55,5 +56,7 @@ app.get('/ping', (req, res) => {
   logger.info('pong')
   res.send('<h1>pong!</h1>')
 } )
+
+app.use('/api/upload',fileReader)
 
 module.exports = app
