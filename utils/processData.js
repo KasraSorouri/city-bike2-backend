@@ -1,7 +1,9 @@
 const dataValidator = require('./dataValidator')
+const logger = require('./logger')
 
-const processData = async (data) => {
-  if ('Departure' in data &&
+const processData = (data) => {
+
+  if ('﻿Departure' in data &&
       'Return' in data &&
       'Departure station id' in data &&
       'Departure station name' in data &&
@@ -10,17 +12,10 @@ const processData = async (data) => {
       'Covered distance (m)' in data &&
       'Duration (sec.)' in data) {
 
-    const trip = dataValidator.tripDataProcessor(data)
+    const tripData = dataValidator.tripDataProcessor(data)
+    return { dataType: 'trip', status: tripData.status , data: tripData.tripRawData }
 
-    if (trip.validation === 'invalid') {
-      console.log('Trip data is invalid!')
-      return trip
-    }
-    console.log('Trip data is valid * ', trip.tripRawData)
-    return trip
-  }
-
-  if ('ID' in data &&
+  } else if ('ID' in data &&
       'Name' in data &&
       'Adress' in data &&
       'Kaupunki' in data &&
@@ -29,19 +24,12 @@ const processData = async (data) => {
       'x' in data &&
       'y' in data) {
 
-    const station = dataValidator.stationDataProcessor(data)
+    const stationData = dataValidator.stationDataProcessor(data)
 
-    if (station.validation === 'invalid') {
-      console.log('Station data is invalid!')
-      return station
-    }
-    console.log('station data is valid * ',station.stationRawData)
-    return station
+    return { dataType: 'station', status: stationData.status , data: stationData.stationRawData }
+  } else {
+    logger.error({ error: 'the csvFile is not in right format' })
+    return { error: 'the csvFile is not in right format' }
   }
-
-  console.log('the csvFile is not in right format')
-
-  return { error: 'the csvFile is not in right format' }
 }
-
 module.exports = processData

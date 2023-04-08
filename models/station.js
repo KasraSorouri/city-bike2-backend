@@ -6,7 +6,7 @@ const stationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  StationName: {
+  stationName: {
     type: String,
     required: true,
   },

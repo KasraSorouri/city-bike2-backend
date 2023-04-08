@@ -29,7 +29,7 @@ const isDurarionValid = (data) => {
 
 const tripDataProcessor = (RawData) => {
   let tripRawData = {
-    departure: isDate(RawData['Departure']),
+    departure: isDate(RawData['﻿Departure']),
     return: isDate(RawData['Return']),
     departureStationId: dataExist(RawData['Departure station id']),
     departureStationName: RawData['Departure station name'],
@@ -45,31 +45,31 @@ const tripDataProcessor = (RawData) => {
    || tripRawData.returnStationId === 'invalid'
    || tripRawData.distance === 'invalid'
    || tripRawData.duration === 'invalid') {
-    return { validation:'invalid', tripRawData }
+    return { status:'invalid', tripRawData }
   }
 
-  return { validation:'valid', tripRawData }
+  return { status:'valid', tripRawData }
 }
 
 const stationDataProcessor = (RawData) => {
   let stationRawData = {
-    id: dataExist(RawData['ID']),
-    name: dataExist(RawData['Name']),
+    stationId: dataExist(RawData['ID']),
+    stationName: dataExist(RawData['Name']),
     address: dataExist(RawData['Adress']),
     city: RawData['Kaupunki'],
-    oprator: RawData['Operaattor'],
+    operator: RawData['Operaattor'],
     capacity: Number(RawData['Kapasiteet']),
-    x: Number(RawData['x']),
-    y: Number(RawData['y']),
+    longtitude: Number(RawData['x']),
+    latitude: Number(RawData['y']),
   }
 
   if( stationRawData.id === 'invalid'
    || stationRawData.name === 'invalid'
    || stationRawData.address === 'invalid') {
 
-    return { validation:'invalid', stationRawData }
+    return { status:'invalid', stationRawData }
   }
-  return { validation:'valid', stationRawData }
+  return { status:'valid', stationRawData }
 }
 module.exports = {
   tripDataProcessor,
