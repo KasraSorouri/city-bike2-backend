@@ -44,8 +44,8 @@ const typeDefs = `
   type Statistics {
     totalTripsFrom: Int!
     totalTripsTo: Int!
-    avrageTripFrom: Float!
-    avrageTripTo: Float!
+    avrageTripFrom: Float
+    avrageTripTo: Float
     popularDestination: [CounterpartStationStatistic!]
     popularOrigin: [CounterpartStationStatistic!]
     roundTrip: [CounterpartStationStatistic!]
@@ -59,7 +59,7 @@ const typeDefs = `
     Stations(stationId: String, city: String, operator: String, page: Int!, rows: Int!, sortParam: String, sortOrder:Int):[Station!]
     StationList:[Station!]
     TimeRanges: TimeRange!
-    StationStatistics (stationId : String!) : Statistics!
+    StationStatistics (stationId : String!, timeFrom: String, timeTo: String) : Statistics!
   }
 `
 module.exports = typeDefs

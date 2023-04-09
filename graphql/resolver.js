@@ -93,9 +93,14 @@ const resolvers = {
       return result[0]
     },
     StationStatistics: async(root,args) => {
-      const { stationId } = args
-      let searchParameter = {}
+      const { stationId, timeFrom, timeTo } = args
 
+      // make Statistics's search parameter
+      let searchParameter = {}
+      timeFrom ? searchParameter.departure = { $gte: new Date(timeFrom) } : null
+      timeTo ? searchParameter.return = { $lte: new Date(timeTo) } : null
+
+      console.log(' S p ->',searchParameter)
       // Calculate statistics ...
       const avrageTripFrom =  await Trip.aggregate([
         { $match: { $and: [{ departureStationId: stationId }, { ...searchParameter }] } },
@@ -164,8 +169,8 @@ const resolvers = {
       const result = {
         totalTripsFrom :await Trip.find({ $and: [{ departureStationId: stationId }, { ...searchParameter }] }).count(),
         totalTripsTo : await Trip.find({ $and: [{ returnStationId: stationId }, { ...searchParameter }] }).count(),
-        avrageTripFrom : avrageTripFrom[0].distance/1000,
-        avrageTripTo : avrageTripTo[0].distance/1000 ,
+        avrageTripFrom : avrageTripFrom[0] ? avrageTripFrom[0].distance/1000 : null,
+        avrageTripTo : avrageTripTo[0] ? avrageTripTo[0].distance/1000 : null,
         popularDestination,
         popularOrigin,
         roundTrip,
