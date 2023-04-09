@@ -10,6 +10,7 @@ const typeDefs = `
     duration: Float!
   }
 
+
   type GPS {
     longtitude: Float!
     latitude: Float!
@@ -29,6 +30,27 @@ const typeDefs = `
     latest: String!
   }
 
+  type CounterpartStationStatistic {
+    stationId: String!
+    count: Int!
+    aveDuration: Float!
+    minDuration: Float!
+    maxDuration: Float!
+    aveDistance: Float!
+    minDistance: Float!
+    maxDistance: Float!
+  }
+
+  type Statistics {
+    totalTripsFrom: Int!
+    totalTripsTo: Int!
+    avrageTripFrom: Float!
+    avrageTripTo: Float!
+    popularDestination: [CounterpartStationStatistic!]
+    popularOrigin: [CounterpartStationStatistic!]
+    roundTrip: [CounterpartStationStatistic!]
+  }
+
   type Query {
     TripCount: Int!
     StationCount: Int!
@@ -37,6 +59,7 @@ const typeDefs = `
     Stations(stationId: String, city: String, operator: String, page: Int!, rows: Int!, sortParam: String, sortOrder:Int):[Station!]
     StationList:[Station!]
     TimeRanges: TimeRange!
+    StationStatistics (stationId : String!) : Statistics!
   }
 `
 module.exports = typeDefs

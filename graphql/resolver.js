@@ -5,9 +5,9 @@ const resolvers = {
 
   Trip: {
     departure: (root) => (root.departure).toISOString().substring(0, 16),
-    return:(root) => new Date(root.return).toISOString().substring(0, 16),
-    distance: (root) => root.distance/1000,
+    return: (root) => new Date(root.return).toISOString().substring(0, 16),
     duration: (root) => root.duration/60,
+    distance: (root) => root.distance/1000,
   },
 
   Station: {
@@ -22,6 +22,16 @@ const resolvers = {
   TimeRange: {
     earliest: (root) => (root.earliest).toISOString().substring(0, 16),
     latest: (root) => (root.latest).toISOString().substring(0, 16),
+  },
+
+  CounterpartStationStatistic : {
+    stationId: (root) => root._id,
+    aveDuration: (root) => root.aveDuration/60,
+    minDuration: (root) => root.minDuration/60,
+    maxDuration: (root) => root.maxDuration/60,
+    aveDistance: (root) => root.aveDistance/1000,
+    minDistance: (root) => root.minDistance/1000,
+    maxDistance: (root) => root.maxDistance/1000,
   },
 
   Query: {
@@ -81,7 +91,87 @@ const resolvers = {
       ])
       console.log('time result range ->', result)
       return result[0]
-    }
+    },
+    StationStatistics: async(root,args) => {
+      const { stationId } = args
+      let searchParameter = {}
+
+      // Calculate statistics ...
+      const avrageTripFrom =  await Trip.aggregate([
+        { $match: { $and: [{ departureStationId: stationId }, { ...searchParameter }] } },
+        { $group: {
+          _id: null,
+          distance: { $avg: '$distance' }
+        } }
+      ])
+
+      const avrageTripTo = await Trip.aggregate([
+        { $match:  { $and: [{ returnStationId: stationId }, { ...searchParameter }] } },
+        { $group: {
+          _id: null,
+          distance: { $avg: '$distance' }
+        } }
+      ])
+
+      const popularDestination = await Trip.aggregate([
+        { $match: { $and: [{ departureStationId: stationId }, { ...searchParameter }] } },
+        { $group: {
+          _id: '$returnStationId' ,
+          count: { $sum: 1 },
+          aveDuration: { $avg: '$duration' },
+          minDuration: { $min: '$duration' },
+          maxDuration: { $max: '$duration' },
+          aveDistance: { $avg: '$distance' },
+          minDistance: { $min: '$distance' },
+          maxDistance: { $max: '$distance' },
+        }
+        },
+        { $sort: { count: -1 } }
+      ]).limit(5)
+
+      const popularOrigin = await Trip.aggregate([
+        { $match: { $and: [{ returnStationId: stationId }, { ...searchParameter }] } },
+        { $group: {
+          _id: '$departureStationId',
+          count: { $sum: 1 },
+          aveDuration: { $avg: '$duration' },
+          minDuration: { $min: '$duration' },
+          maxDuration: { $max: '$duration' },
+          aveDistance: { $avg: '$distance' },
+          minDistance: { $min: '$distance' },
+          maxDistance: { $max: '$distance' },
+        }
+        },
+        { $sort: { count: -1 } }
+      ]).limit(5)
+
+      const roundTrip = await Trip.aggregate([
+        { $match: { $and: [{ departureStationId: stationId , returnStationId: stationId }, { ...searchParameter }] } },
+        { $group: {
+          _id: '$departureStationId',
+          count: { $sum: 1 },
+          aveDuration: { $avg: '$duration' },
+          minDuration: { $min: '$duration' },
+          maxDuration: { $max: '$duration' },
+          aveDistance: { $avg: '$distance' },
+          minDistance: { $min: '$distance' },
+          maxDistance: { $max: '$distance' },
+        }
+        }
+      ])
+      // end of calculation statistics
+
+      const result = {
+        totalTripsFrom :await Trip.find({ $and: [{ departureStationId: stationId }, { ...searchParameter }] }).count(),
+        totalTripsTo : await Trip.find({ $and: [{ returnStationId: stationId }, { ...searchParameter }] }).count(),
+        avrageTripFrom : avrageTripFrom[0].distance/1000,
+        avrageTripTo : avrageTripTo[0].distance/1000 ,
+        popularDestination,
+        popularOrigin,
+        roundTrip,
+      }
+      return result
+    },
   }
 }
 
