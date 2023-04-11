@@ -59,4 +59,10 @@ app.get('/ping', (req, res) => {
 
 app.use('/api/upload',fileReader)
 
+//Test root
+if (process.env.NODE_ENV === 'test') {
+  const testRouter = require('./controllers/testRouter')
+  app.use('/test', testRouter)
+
+}
 module.exports = app
