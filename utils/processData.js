@@ -16,13 +16,13 @@ const processData = (data) => {
     return { dataType: 'trip', status: tripData.status , data: tripData.tripRawData }
 
   } else if ('ID' in data &&
-      'Name' in data &&
-      'Adress' in data &&
-      'Kaupunki' in data &&
-      'Operaattor' in data &&
-      'Kapasiteet' in data &&
-      'x' in data &&
-      'y' in data) {
+             'Name' in data &&
+             'Adress' in data &&
+             'Kaupunki' in data &&
+             'Operaattor' in data &&
+             'Kapasiteet' in data &&
+             'x' in data &&
+             'y' in data) {
 
     const stationData = dataValidator.stationDataProcessor(data)
 

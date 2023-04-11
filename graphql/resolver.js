@@ -89,7 +89,6 @@ const resolvers = {
           latest: { $max: '$return' }
         } }
       ])
-      console.log('time result range ->', result)
       return result[0]
     },
     StationStatistics: async(root,args) => {
@@ -100,7 +99,6 @@ const resolvers = {
       timeFrom ? searchParameter.departure = { $gte: new Date(timeFrom) } : null
       timeTo ? searchParameter.return = { $lte: new Date(timeTo) } : null
 
-      console.log(' S p ->',searchParameter)
       // Calculate statistics ...
       const avrageTripFrom =  await Trip.aggregate([
         { $match: { $and: [{ departureStationId: stationId }, { ...searchParameter }] } },

@@ -57,7 +57,7 @@ const processFile = async(csvFile) => {
         resolve(results)
       })
       .on('error',(err) => {
-        console.log(err)
+        logger.error(err)
         reject(err)
       })
   })
