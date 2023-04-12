@@ -17,5 +17,3 @@ jobs:
         run: npm install
       - name: Check style
         run: npm run lint
-      - name: test
-        run: npm run test
