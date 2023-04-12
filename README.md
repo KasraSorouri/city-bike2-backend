@@ -88,19 +88,21 @@ To run the test use:
 >npm test
 ```
 ##### Test 1. file processing 
-✓ Trip file with correct format is converted to trip model     
-✓ Only valid trips add to the database     
-✓ Duplicate trips would not be added to the database    
-✓ Station file with correct format is converted to trip model    
-✓ Only valid stations add to the database    
-✓ Duplicate stations would not be added to the database  
+  test file handeling
+	  ✓ Trip file with correct format is converted to trip model (134 ms)
+  	✓ Only valid trips add to the database (51 ms)
+ 	  ✓ Station file with correct format is converted to Station model (86 ms)
+ 	  ✓ Only valid stations add to the database (44 ms)
+
 ##### Test 2. GraphQL and ApolloServer
-  **Receive trips**     
-	✓ trips are returned as json      
-	✓ Return All Trips 	<br/>
-	✓ Pagination test     
-	✓ Test Filter  					
-    
-**Receive Stations**  
-✓ Stations are returned as json    
-✓ Return all stations 
+  Test GraphQL server for returning Trips
+    ✓ Returns trips with the provided page & rows (42 ms)
+    ✓ Convert Distance to Km and duration to min (8 ms)
+    ✓ Read total number of trips (5 ms)
+  Test GraphQL server for returning Stations
+    ✓ Returns stations with the provided page & rows (7 ms)
+    ✓ Read total number of stations (4 ms)
+    ✓ Read station list (21 ms)
+  Test GraphQL server for returning Statistics
+    ✓ Returns statistics for the provided statoin (19 ms)
+
