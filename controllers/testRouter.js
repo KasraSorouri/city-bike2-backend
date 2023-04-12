@@ -11,10 +11,10 @@ testRouter.post('/reset', async (request, response) => {
 })
 
 testRouter.post('/upload-csv', async (request, response) => {
-  const testTripsFile = path.join('__dirname','../tests/testTrip.csv')
-  await processFile.processTrip(testTripsFile,true)
-  const testStationFile = path.join('__dirname','../tests/testStation.csv')
-  await processFile.processStation(testStationFile,true)
+  const testTripsFile = path.join('__dirname','../tests/testTrips.csv')
+  await processFile.processTrip(testTripsFile)
+  const testStationFile = path.join('__dirname','../tests/testStations.csv')
+  await processFile.processStation(testStationFile)
   response.status(204).end()
 })
 

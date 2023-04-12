@@ -24,7 +24,7 @@ mongoose.connect(config.MONGODB_URI)
     logger.info('connected to MongoDB')
   })
   .catch((error) => {
-    logger.error('erroe connecting to MongoDB:',error.message)
+    logger.error('error connecting to MongoDB:',error.message)
   })
 
 
@@ -53,7 +53,7 @@ start()
 
 //Outside of Apollo server
 app.get('/ping', (req, res) => {
-  logger.info('pong')
+  logger.info('server is ping! -> pong')
   res.send('<h1>pong!</h1>')
 } )
 
@@ -63,6 +63,6 @@ app.use('/api/upload',fileReader)
 if (process.env.NODE_ENV === 'test') {
   const testRouter = require('./controllers/testRouter')
   app.use('/test', testRouter)
-
 }
+
 module.exports = app

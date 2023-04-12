@@ -22,8 +22,9 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "eslint": "^8.37.0",
+    "apollo-server-testing": "^2.25.3",
     "dotenv": "^16.0.3",
+    "eslint": "^8.37.0",
     "jest": "^29.5.0",
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3"
