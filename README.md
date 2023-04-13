@@ -85,24 +85,24 @@ I use Jest and the supertest package to test the backend. Test makes use of the 
 because Linux is the development environment in the script, I just defined the mode. Use the  cross-env library if you want to work in the Windows environment.
 To run the test use: 
 ```
->npm test
+>npm test 
 ```
-##### Test 1. file processing 
-  test file handeling
-	  ✓ Trip file with correct format is converted to trip model (134 ms)
-  	✓ Only valid trips add to the database (51 ms)
- 	  ✓ Station file with correct format is converted to Station model (86 ms)
- 	  ✓ Only valid stations add to the database (44 ms)
+### Test 1. file processing 
+####  test file handeling </br>  
+✓ Trip file with correct format is converted to trip model </br>
+✓ Only valid trips add to the database </br>
+✓ Station file with correct format is converted to Station model </br>
+✓ Only valid stations add to the database </br>
 
-##### Test 2. GraphQL and ApolloServer
-  Test GraphQL server for returning Trips
-    ✓ Returns trips with the provided page & rows (42 ms)
-    ✓ Convert Distance to Km and duration to min (8 ms)
-    ✓ Read total number of trips (5 ms)
-  Test GraphQL server for returning Stations
-    ✓ Returns stations with the provided page & rows (7 ms)
-    ✓ Read total number of stations (4 ms)
-    ✓ Read station list (21 ms)
-  Test GraphQL server for returning Statistics
-    ✓ Returns statistics for the provided statoin (19 ms)
+### Test 2. GraphQL and ApolloServer
+####  Test GraphQL server for returning Trips </br>
+✓ Returns trips with the provided page & rows </br>
+✓ Convert Distance to Km and duration to min </br>
+✓ Read total number of trips </br>
+####  Test GraphQL server for returning Stations </br>
+✓ Returns stations with the provided page & rows </br>
+✓ Read total number of stations </br>
+✓ Read station list </br>
+####  Test GraphQL server for returning Statistics </br>
+✓ Returns statistics for the provided statoin </br>
 
