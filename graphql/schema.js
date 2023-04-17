@@ -1,5 +1,6 @@
 const typeDefs = `
   type Trip {
+    id: ID!
     departure: String!
     return: String!
     departureStationId: String!
@@ -16,6 +17,7 @@ const typeDefs = `
     latitude: Float!
   }
   type Station {
+    id: ID!
     stationId: String!
     stationName: String!
     address: String!
@@ -55,7 +57,7 @@ const typeDefs = `
     TripCount: Int!
     StationCount: Int!
     Trips( departureStation: String, returnStation: String, departureTimeFrom: String, returnTimeTo: String, 
-      distanceFrom: Int, distanceTo: Int, durationFrom:Int, durationTo:Int, page: Int!, rows: Int!, sortParam: String, sortOrder:Int): [Trip!]
+      distanceFrom: Float, distanceTo: Float, durationFrom:Float, durationTo:Float, page: Int!, rows: Int!, sortParam: String, sortOrder:Int): [Trip!]
     Stations(stationId: String, city: String, operator: String, page: Int!, rows: Int!, sortParam: String, sortOrder:Int):[Station!]
     StationList:[Station!]
     TimeRanges: TimeRange!

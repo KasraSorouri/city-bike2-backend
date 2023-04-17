@@ -6,8 +6,8 @@ const resolvers = {
   Trip: {
     departure: (root) => (root.departure).toISOString().substring(0, 16),
     return: (root) => new Date(root.return).toISOString().substring(0, 16),
-    duration: (root) => root.duration/60,
-    distance: (root) => root.distance/1000,
+    duration: (root) => root.duration / 60,
+    distance: (root) => root.distance / 1000,
   },
 
   Station: {
@@ -26,12 +26,12 @@ const resolvers = {
 
   CounterpartStationStatistic : {
     stationId: (root) => root._id,
-    aveDuration: (root) => root.aveDuration/60,
-    minDuration: (root) => root.minDuration/60,
-    maxDuration: (root) => root.maxDuration/60,
-    aveDistance: (root) => root.aveDistance/1000,
-    minDistance: (root) => root.minDistance/1000,
-    maxDistance: (root) => root.maxDistance/1000,
+    aveDuration: (root) => root.aveDuration / 60,
+    minDuration: (root) => root.minDuration / 60,
+    maxDuration: (root) => root.maxDuration / 60,
+    aveDistance: (root) => root.aveDistance / 1000,
+    minDistance: (root) => root.minDistance / 1000,
+    maxDistance: (root) => root.maxDistance / 1000,
   },
 
   Query: {
@@ -44,21 +44,25 @@ const resolvers = {
       // make Trip's sort parameter
       let sort = {}
       sortParam ? sort[sortParam] = sortOrder : null
-
       // make Trip's Search parameter
       let searchParameter = {}
-      departureStation ? searchParameter.departureStation = departureStation : null
-      returnStation ? searchParameter.returnStation = returnStation : null
+      departureStation ? searchParameter.departureStationId = departureStation : null
+      returnStation ? searchParameter.returnStationId = returnStation : null
+
+      distanceFrom && distanceTo ? searchParameter.distance = { $gte: distanceFrom * 1000, $lte: distanceTo * 1000 } : null
+      distanceFrom && !distanceTo ? searchParameter.distance = { $gte: distanceFrom *1000 } : null
+      !distanceFrom && distanceTo ? searchParameter.distance = { $lte: distanceTo * 1000 } : null
+
+      durationFrom && durationTo ? searchParameter.duration = { $gte: durationFrom * 60 , $lte: durationTo * 60 } : null
+      durationFrom && !durationTo ? searchParameter.duration = { $gte: durationFrom * 60 } : null
+      !durationFrom && durationTo ? searchParameter.duration = { $lte: durationTo * 60 } : null
+
       departureTimeFrom ? searchParameter.departure = { $gte: departureTimeFrom } : null
-      returnTimeTo ? searchParameter.return = { $lte: returnTimeTo } : null
 
-      distanceFrom && distanceTo ? searchParameter.distance = { $gte: distanceFrom*1000 , $lte: distanceTo*1000 } : null
-      distanceFrom && !distanceTo ? searchParameter.distance = { $gte: distanceFrom*1000 } : null
-      !distanceFrom && distanceTo ? searchParameter.distance = { $lte: distanceTo*1000 } : null
-
-      durationFrom && durationTo ? searchParameter.duration = { $gte: durationFrom*60 , $lte: durationTo*60 } : null
-      durationFrom && !durationTo ? searchParameter.duration = { $gte: durationFrom*60 } : null
-      !durationFrom && durationTo ? searchParameter.duration = { $lte: durationTo*60 } : null
+      // Add the selected day to the filter range
+      const reformedDate = new Date(returnTimeTo)
+      reformedDate.setDate(reformedDate.getDate()+1)
+      returnTimeTo ? searchParameter.return = { $lte: reformedDate } : null
 
       const result = await Trip.find({ ...searchParameter }).sort(sort).skip(page*rows).limit(rows)
       return result
@@ -167,8 +171,8 @@ const resolvers = {
       const result = {
         totalTripsFrom :await Trip.find({ $and: [{ departureStationId: stationId }, { ...searchParameter }] }).count(),
         totalTripsTo : await Trip.find({ $and: [{ returnStationId: stationId }, { ...searchParameter }] }).count(),
-        avrageTripFrom : avrageTripFrom[0] ? avrageTripFrom[0].distance/1000 : null,
-        avrageTripTo : avrageTripTo[0] ? avrageTripTo[0].distance/1000 : null,
+        avrageTripFrom : avrageTripFrom[0] ? avrageTripFrom[0].distance / 1000 : null,
+        avrageTripTo : avrageTripTo[0] ? avrageTripTo[0].distance / 1000 : null,
         popularDestination,
         popularOrigin,
         roundTrip,
