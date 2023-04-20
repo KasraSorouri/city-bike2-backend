@@ -100,7 +100,11 @@ const resolvers = {
       // make Statistics's search parameter
       let searchParameter = {}
       timeFrom ? searchParameter.departure = { $gte: new Date(timeFrom) } : null
-      timeTo ? searchParameter.return = { $lte: new Date(timeTo) } : null
+      // Add the selected day to the filter range
+      const reformedDate = new Date(timeTo)
+      reformedDate.setDate(reformedDate.getDate()+1)
+
+      timeTo ? searchParameter.return = { $lte: reformedDate } : null
 
       // Calculate statistics ...
       const avrageTripFrom =  await Trip.aggregate([
