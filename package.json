@@ -8,7 +8,10 @@
     "dev": "NODE_ENV=development nodemon index.js",
     "test": "NODE_ENV=test jest --verbose --runInBand --forceExit",
     "lint": "eslint . --fix",
-    "start:test": "NODE_ENV=test node index.js"
+    "start:test": "NODE_ENV=test node index.js",
+    "build:frontend": "cd ../citybike-frontend && npm run build",
+    "build:backend": "rm -rf build && cp -r ../citybike-frontend/build ./",
+    "build:app": "npm run build:frontend && npm run build:backend"
   },
   "author": "Kasra Sorouri",
   "license": "MIT",

@@ -30,6 +30,7 @@ mongoose.connect(config.MONGODB_URI)
 
 const app = express()
 app.use(express.json(), cors())
+app.use(express.static('build'))
 
 //Apollo server configuration
 const start = async () => {
