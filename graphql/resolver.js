@@ -68,15 +68,14 @@ const resolvers = {
       return result
     },
     Stations: async (root, args) => {
-      const { page, rows, stationId, city, operator, sortParam, sortOrder } = args
+      const { page, rows, stations, city, operator, sortParam, sortOrder } = args
 
       // make Stations's sort parameter
       let sort = {}
       sortParam ? sort[sortParam] = sortOrder : null
-
       // make Stations's search parameter
       let searchParameter = {}
-      stationId  ? searchParameter.stationId  = stationId : null
+      stations  ? searchParameter.stationId  = stations : null
       city ? searchParameter.city = city : null
       operator  ? searchParameter.operator  = operator : null
 

@@ -58,7 +58,7 @@ const typeDefs = `
     StationCount: Int!
     Trips( departureStation: String, returnStation: String, departureTimeFrom: String, returnTimeTo: String, 
       distanceFrom: Float, distanceTo: Float, durationFrom:Float, durationTo:Float, page: Int!, rows: Int!, sortParam: String, sortOrder:Int): [Trip!]
-    Stations(stationId: String, city: String, operator: String, page: Int!, rows: Int!, sortParam: String, sortOrder:Int):[Station!]
+    Stations(stations: [String], city: String, operator: String, page: Int!, rows: Int!, sortParam: String, sortOrder:Int):[Station!]
     StationList:[Station!]
     TimeRanges: TimeRange!
     StationStatistics (stationId : String!, timeFrom: String, timeTo: String) : Statistics!
