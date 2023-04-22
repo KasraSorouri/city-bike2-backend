@@ -17,9 +17,17 @@ const typeDefs = require('./graphql/schema')
 //Databse connection
 const mongoose = require('mongoose').set('strictQuery',false)
 
+const mongoOptions = {
+  autoIndex: true, // Don't build indexes
+  maxPoolSize: 50, // Maintain up to 10 socket connections
+  serverSelectionTimeoutMS: 60000, // Keep trying to send operations for 5 seconds
+  socketTimeoutMS: 300000, // Close sockets after 45 seconds of inactivity
+}
+
 logger.info('connecting to ',config.MONGODB_URI)
 
-mongoose.connect(config.MONGODB_URI)
+mongoose.connect(config.MONGODB_URI,mongoOptions)
+
   .then(() => {
     logger.info('connected to MongoDB')
   })

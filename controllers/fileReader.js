@@ -11,7 +11,7 @@ fileReader.post('/upload-csv', upload.single('csvFile'), async (req, res) => {
   try {
     const result  = await processFile(req.file.path)
     logger.info(result)
-    res.json({ status: 'file uploaded successfully!' , dataType: result.dataType })
+    res.json({ status: 'file uploaded successfully!' , dataType: result })
   } catch (err) {
     logger.error(err)
     res.json({ error: 'server error' }).status(500)
