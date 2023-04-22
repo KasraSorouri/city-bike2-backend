@@ -40,7 +40,6 @@ const processFile = async (csvFile) => {
             console.log('DUBLICATED')
             results.duplicateRecord++
           }
-          return null
         }
       }
 
@@ -55,7 +54,6 @@ const processFile = async (csvFile) => {
             console.log('DUBLICATED')
             results.duplicateRecord++
           }
-          return null
         }
       }
       callback()
@@ -67,6 +65,7 @@ const processFile = async (csvFile) => {
 
   transformStream.on('finish', () => {
     logger.info(results)
+    return results
   })
     .on('error', (err) => {
       logger.error(err)
