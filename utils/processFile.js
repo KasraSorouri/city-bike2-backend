@@ -34,10 +34,8 @@ const processFile = async (csvFile) => {
         try {
           await trip.save()
           results.recordAdded++
-          console.log('line read:', results.fileRows, ' records: ', results.recordAdded)
         } catch (err) {
           if (err.code === 11000) {
-            console.log('DUBLICATED')
             results.duplicateRecord++
           }
         }
@@ -51,7 +49,6 @@ const processFile = async (csvFile) => {
           results.recordAdded++
         } catch (err) {
           if (err.code === 11000) {
-            console.log('DUBLICATED')
             results.duplicateRecord++
           }
         }

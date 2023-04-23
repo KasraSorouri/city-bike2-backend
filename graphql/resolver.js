@@ -82,6 +82,45 @@ const resolvers = {
       const result = await Station.find({ ...searchParameter }).sort(sort).skip(page*rows).limit(rows)
       return result
     },
+    TripFilteredCount: async (root, args) => {
+      const { departureStation, returnStation, departureTimeFrom, returnTimeTo,
+        distanceFrom, distanceTo, durationFrom, durationTo } = args
+
+      // make Trip's Search parameter
+      let searchParameter = {}
+      departureStation ? searchParameter.departureStationId = departureStation : null
+      returnStation ? searchParameter.returnStationId = returnStation : null
+
+      distanceFrom && distanceTo ? searchParameter.distance = { $gte: distanceFrom * 1000, $lte: distanceTo * 1000 } : null
+      distanceFrom && !distanceTo ? searchParameter.distance = { $gte: distanceFrom *1000 } : null
+      !distanceFrom && distanceTo ? searchParameter.distance = { $lte: distanceTo * 1000 } : null
+
+      durationFrom && durationTo ? searchParameter.duration = { $gte: durationFrom * 60 , $lte: durationTo * 60 } : null
+      durationFrom && !durationTo ? searchParameter.duration = { $gte: durationFrom * 60 } : null
+      !durationFrom && durationTo ? searchParameter.duration = { $lte: durationTo * 60 } : null
+
+      departureTimeFrom ? searchParameter.departure = { $gte: departureTimeFrom } : null
+
+      // Add the selected day to the filter range
+      const reformedDate = new Date(returnTimeTo)
+      reformedDate.setDate(reformedDate.getDate()+1)
+      returnTimeTo ? searchParameter.return = { $lte: reformedDate } : null
+
+      const result = await Trip.find({ ...searchParameter }).countDocuments()
+      return result
+    },
+    StationFilteredCount: async (root, args) => {
+      const { stations, city, operator } = args
+
+      // make Stations's search parameter
+      let searchParameter = {}
+      stations  ? searchParameter.stationId  = stations : null
+      city ? searchParameter.city = city : null
+      operator  ? searchParameter.operator  = operator : null
+
+      const result = await Station.find({ ...searchParameter }).countDocuments()
+      return result
+    },
     StationList: async() => Station.find({}),
     TimeRanges: async() => {
       const result = await Trip.aggregate([
