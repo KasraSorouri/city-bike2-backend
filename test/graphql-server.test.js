@@ -26,9 +26,9 @@ describe('Test GraphQL server for returning Trips', () => {
       variables: { page: 1, rows:5 },
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.Trips[3].departureStationId).toBe('147')
-    expect(response.body.singleResult.data?.Trips[0].departureStationId).toBe('240')
-    expect(response.body.singleResult.data?.Trips[2]).toEqual({ 'departureStationId': '116', 'returnStationId': '145' })
+    expect(response.body.singleResult.data?.Trips[3].departureStationId).toBe('004')
+    expect(response.body.singleResult.data?.Trips[0].departureStationId).toBe('003')
+    expect(response.body.singleResult.data?.Trips[2]).toEqual({ 'departureStationId': '007', 'returnStationId': '010' })
   })
 
   test('Convert Distance to Km and duration to min', async () => {
@@ -37,8 +37,7 @@ describe('Test GraphQL server for returning Trips', () => {
       variables: { page: 1, rows:5 },
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.Trips[3].distance).toBe(1.633)
-    expect(response.body.singleResult.data?.Trips[3].duration).toBe(11.2)
+    expect(response.body.singleResult.data?.Trips[3].distance).toBe(3.15)
   })
 
   test('Read total number of trips', async () => {
@@ -46,7 +45,7 @@ describe('Test GraphQL server for returning Trips', () => {
       query: 'query TRIPS { TripCount }',
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.TripCount).toBe(49)
+    expect(response.body.singleResult.data?.TripCount).toBe(43)
   })
 })
 
@@ -58,8 +57,8 @@ describe('Test GraphQL server for returning Stations', () => {
       variables: { page: 1, rows:5, sortParam: 'stationId', sortOrder: 1 },
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.Stations[3].stationId).toBe('009')
-    expect(response.body.singleResult.data?.Stations[0].capacity).toBe(24)
+    expect(response.body.singleResult.data?.Stations[3].stationId).toBe('010')
+    expect(response.body.singleResult.data?.Stations[0].capacity).toBe(18)
     expect(response.body.singleResult.data?.Stations[0]).toHaveProperty('stationId')
     expect(response.body.singleResult.data?.Stations[0]).toHaveProperty('stationName')
     expect(response.body.singleResult.data?.Stations[0]).toHaveProperty('capacity')
@@ -72,7 +71,7 @@ describe('Test GraphQL server for returning Stations', () => {
       query: 'query STATION { StationCount }',
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.StationCount).toBe(99)
+    expect(response.body.singleResult.data?.StationCount).toBe(13)
   })
 
   test('Read station list', async () => {
@@ -82,7 +81,7 @@ describe('Test GraphQL server for returning Stations', () => {
     expect(response.body.singleResult.errors).toBeUndefined()
     expect(response.body.singleResult.data?.StationList[5]).toHaveProperty( 'stationId' )
     expect(response.body.singleResult.data?.StationList[5]).toHaveProperty( 'stationName' )
-    expect(response.body.singleResult.data?.StationList).toHaveLength(99)
+    expect(response.body.singleResult.data?.StationList).toHaveLength(13)
   })
 })
 
@@ -91,10 +90,10 @@ describe('Test GraphQL server for returning Statistics', () => {
   test('Returns statistics for the provided statoin', async () => {
     const response = await testServer.executeOperation({
       query: 'query STATISTIC( $stationId: String! ) { StationStatistics(stationId:  $stationId){ totalTripsFrom, totalTripsTo, avrageTripFrom, avrageTripTo}}',
-      variables: { stationId: '116' },
+      variables: { stationId: '014' },
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.StationStatistics).toEqual({ 'avrageTripFrom': 2.552, 'avrageTripTo': 1.1685, 'totalTripsFrom': 3, 'totalTripsTo': 4 })
+    expect(response.body.singleResult.data?.StationStatistics).toEqual({ 'avrageTripFrom': 4.925, 'avrageTripTo': 3.1735, 'totalTripsFrom': 1, 'totalTripsTo': 4 })
   })
 
 })

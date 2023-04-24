@@ -35,6 +35,6 @@ const tripSchema = new mongoose.Schema({
   },
 })
 
-tripSchema.index({ dearture:1, return: 1, departureStationId: 1, returnStationId: 1, distance: 1  },{ unique: true })
+tripSchema.index({ distance: 1, dearture: 1, departureStationId: 1, returnStationId: 1, return: 1  },{ unique: true })
 
 module.exports = mongoose.model('Trip', tripSchema)

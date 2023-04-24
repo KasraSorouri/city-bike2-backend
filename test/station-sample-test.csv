@@ -1,0 +1,19 @@
+﻿FID,ID,Nimi,Namn,Name,Osoite,Adress,Kaupunki,Stad,Operaattor,Kapasiteet,x,y
+1,001,Station 1 -fi,Station 1 -Sw,Station 1,Address 1 -fi,Address 1,Espoo,Esbo,CityBike Finland,10,24.840319,60.16582
+2,002,Station 2 -fi,Station 2 -Sw,Station 2,Address 2 -fi,Address 2,Espoo,Esbo,CityBike Finland,28,24.827467,60.171524
+3,003,Station 3 -fi,Station 3 -Sw,Station 3,Address 3 -fi,Address 3,Espoo,Esbo,CityBike Finland,16,24.805758,60.168266
+4,004,Station 4 -fi,Station 4 -Sw,Station 4,Address 4 -fi,Address 4, , ,CityBike Finland,16,24.796136,60.168143
+5,005,Station 5 -fi,Station 5 -Sw,Station 5,Address 5 -fi,Address 5,Espoo,Esbo,CityBike Finland,30,24.802938,60.171551
+6,006,Station 6 -fi,Station 6 -Sw,Station 6,Address 6 -fi,Address 6,Espoo,Esbo,CityBike Finland,18,24.810688,60.173424
+7,007,Station 7 -fi,Station 7 -Sw,Station 7,Address 7 -fi,Address 7,Espoo,Esbo,CityBike Finland,24,24.79139,60.173567
+8,008,Station 8 -fi,Station 8 -Sw,Station 8,Address 8 -fi,Address 8,Espoo,Esbo,,16,24.792559,60.175769
+9,009,Station 9 -fi,Station 9 -Sw,Station 9,Address 9 -fi,Address 9,Espoo,Esbo,CityBike Finland,24,24.802049,60.175358
+10,010,Station 10 -fi,Station 10 -Sw,Station 10,Address 10 -fi,Address 10,Helsinki,,CityBike Finland,18,24.806051,60.174144
+11,011,Station 11 -fi,Station 11 -Sw,Station 11,Address 11 -fi,Address 11,Espoo,Esbo,,26,24.805825,60.176168
+12,012,Station 12 -fi,Station 12 -Sw,Station 12,Address 12 -fi,Address 12,Espoo,Esbo,CityBike Finland,30,24.803942,60.177588
+13,013,Station 13 -fi,Station 13 -Sw,Station 13,Address 13 -fi,Address 13, , ,CityBike Finland,20,24.797984,60.17875
+14,014,Station 14 -fi,Station 14 -Sw,Station 14,Address 14 -fi,Address 14,Espoo,Esbo,CityBike Finland,10,24.810974,60.178702
+12,012,Station 12 -fi,Station 12 -Sw,Station 12,Address 12 -fi,Address 12,Espoo,Esbo,CityBike Finland,30,24.803942,60.177588
+16,,Station 16 -fi,Station 16 -Sw,Station 16,Address 16 -fi,Address 16,Espoo,Esbo,CityBike Finland,40,24.82895,60.175233
+16,015,Station 16 -fi,Station 16 -Sw,,Address 16 -fi,Address 16,Espoo,Esbo,CityBike Finland,40,24.82895,60.175233
+16,016,Station 16 -fi,Station 16 -Sw,Station 16,Address 16 -fi,Address 16,Espoo,Esbo,CityBike Finland,40,24.82895,60.175233

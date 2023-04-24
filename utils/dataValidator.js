@@ -63,8 +63,8 @@ const stationDataProcessor = (RawData) => {
     latitude: Number(RawData['y']),
   }
 
-  if( stationRawData.id === 'invalid'
-   || stationRawData.name === 'invalid'
+  if( stationRawData.stationId === 'invalid'
+   || stationRawData.stationName === 'invalid'
    || stationRawData.address === 'invalid') {
 
     return { status:'invalid', stationRawData }
