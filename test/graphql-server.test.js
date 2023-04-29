@@ -6,6 +6,12 @@ const config = require('../utils/config')
 const resolvers = require('../graphql/resolver')
 const typeDefs = require('../graphql/schema')
 
+const Trip = require('../models/trip')
+const Station = require('../models/station')
+
+const path = require('path')
+const processFile = require('../utils/processFile')
+
 let testServer
 beforeAll(async () => {
 
@@ -15,7 +21,14 @@ beforeAll(async () => {
     resolvers,
   })
 
-})
+  await Trip.deleteMany({})
+  await Station.deleteMany({})
+  const testTripsFile = path.join('__dirname','../test/trips-sample-test.csv')
+  await processFile(testTripsFile)
+  const testStationFile = path.join('__dirname','../test/station-sample-test.csv')
+  await processFile(testStationFile)
+
+},100000)
 
 
 describe('Test GraphQL server for returning Trips', () => {
