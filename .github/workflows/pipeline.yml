@@ -5,9 +5,12 @@ on:
     branches:
       - main
 
+env:
+  TEST_MONGODB_URI: 'mongodb://127.0.0.1:27017/test-city-bike?retryWrites=true&w=majority' 
+  
 jobs:
   simple_deployment_pipeline:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -17,3 +20,14 @@ jobs:
         run: npm install
       - name: Check style
         run: npm run lint
+      - name: Install MongoDB
+        run: |
+          wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-org
+      - name: Start MongoDB service
+        run: |
+          sudo systemctl start mongod
+      - name: Run Tests
+        run: npm test
