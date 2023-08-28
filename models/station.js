@@ -16,15 +16,12 @@ const stationSchema = new mongoose.Schema({
   },
   city: {
     type: String,
-    required: true,
   },
   operator: {
     type: String,
-    required: true,
   },
   capacity: {
     type: Number,
-    required: true,
   },
   longtitude: {
     type: Number,

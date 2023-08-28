@@ -14,6 +14,10 @@ const { makeExecutableSchema } = require('@graphql-tools/schema')
 const resolvers = require('./graphql/resolver')
 const typeDefs = require('./graphql/schema')
 
+// Test Data Engineering
+const dataAnalysisRouter = require('./controllers/dataAnalysis')
+// -- end of Data Engineering
+
 //Databse connection
 const mongoose = require('mongoose').set('strictQuery',false)
 
@@ -73,5 +77,9 @@ if (process.env.NODE_ENV === 'test') {
   const testRouter = require('./controllers/testRouter')
   app.use('/test', testRouter)
 }
+
+// Test Data Engineering
+app.use('/api/dataAnalysis',dataAnalysisRouter)
+// -- end of Data Engineering
 
 module.exports = app
