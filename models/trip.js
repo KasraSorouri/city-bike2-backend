@@ -33,8 +33,13 @@ const tripSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  hashRecord: {
+    type: String,
+    require: true,
+  }
 })
 
-tripSchema.index({ distance: 1, dearture: 1, departureStationId: 1, returnStationId: 1, return: 1  },{ unique: true })
+tripSchema.index({ distance: 1, dearture: 1, departureStationId: 1, returnStationId: 1, return: 1  })
+tripSchema.index({ hashRecord: 1 },{ unique: true })
 
 module.exports = mongoose.model('Trip', tripSchema)

@@ -1,5 +1,6 @@
 const dataValidator = require('./dataValidator')
 const logger = require('./logger')
+const hashMaker = require('./hashMaker')
 
 const processData = (data) => {
 
@@ -13,6 +14,15 @@ const processData = (data) => {
       'Duration (sec.)' in data) {
 
     const tripData = dataValidator.tripDataProcessor(data)
+    // Making a Hash for faster duplicate record check
+    tripData.tripRawData.hashRecord = hashMaker.hashRecord({
+      departure: tripData.tripRawData.departure,
+      return: tripData.tripRawData.return,
+      departureStationId: tripData.tripRawData.departureStationId,
+      returnStationId: tripData.tripRawData.returnStationId,
+      distance: tripData.tripRawData.distance,
+      duration: tripData.tripRawData.duration
+    })
     return { dataType: 'trip', status: tripData.status , data: tripData.tripRawData }
 
   } else if ('ID' in data &&
