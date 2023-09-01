@@ -19,4 +19,12 @@ dataAnalysisRouter.get('/:id', async (req, res) => {
   }
 })
 
+dataAnalysisRouter.get('/:id/destination', async (req, res) => {
+  const stationId = req.params.id
+  const response = await dataEngineering.destinationData(stationId)
+  if (response) {
+    return res.status(200).send(response)
+  }
+})
+
 module.exports = dataAnalysisRouter

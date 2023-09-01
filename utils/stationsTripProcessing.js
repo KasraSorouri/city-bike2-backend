@@ -80,7 +80,43 @@ const getProcessedData = async (stationId) => {
   return result
 }
 
+// Destination Analysis
+const destinationData = async (stationId) => {
+  const destinations = await StationDynamicData.aggregate([
+    { $match: { $and: [{ stationId: stationId }] } },
+    { $group: {
+      _id: {
+        actionType: '$actionType',
+        oppositeStation: '$oppositeStation'
+      },
+      count: { $sum: 1 },
+    }
+    },
+    { $sort: { count: -1 } }
+  ])
+
+  let result = []
+  destinations.forEach(destination => {
+    if ( destination._id.actionType === 'departure' ) {
+      result.push({
+        source : stationId,
+        target : destination._id.oppositeStation,
+        value : destination.count
+      })
+    }
+    if ( destination._id.actionType === 'return' ) {
+      result.push({
+        source : destination._id.oppositeStation,
+        target : stationId,
+        value : destination.count
+      })
+    }
+  })
+  return result
+}
+
 module.exports =  {
   stationDataProcess,
-  getProcessedData
+  getProcessedData,
+  destinationData
 }
