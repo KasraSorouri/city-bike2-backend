@@ -6,6 +6,7 @@ const logger = require('../utils/logger')
 const processData = require('../utils/processData')
 const Trip = require('../models/trip')
 const Station = require('../models/station')
+const { stationDataProcess } = require('./stationsTripProcessing')
 
 const processFile = async (csvFile) => {
   return new Promise((resolve, reject) => {
@@ -16,6 +17,20 @@ const processFile = async (csvFile) => {
       recordAdded: 0,
       dataInavlid: 0,
       duplicateRecord: 0,
+    }
+
+    const buffer = []
+    const batchSize = 3000
+
+    const insertBatch = async (data, model) => {
+      try {
+        await model.insertMany(data, { ordered: false })
+        results.recordAdded += data.length
+      } catch (err) {
+        if (err.code === 11000) {
+          results.duplicateRecord++
+        }
+      }
     }
 
     // Read and Process Data from the file
@@ -32,29 +47,23 @@ const processFile = async (csvFile) => {
         }
         if (processedData.status === 'valid' && processedData.dataType === 'trip') {
           results.dataType = 'trip'
-          const trip = new Trip(processedData.data)
-          try {
-            await trip.save()
-            results.recordAdded++
-          } catch (err) {
-            if (err.code === 11000) {
-              results.duplicateRecord++
-            }
+          buffer.push(new Trip(processedData.data))
+          if (buffer.length >= batchSize) {
+            await insertBatch(buffer, Trip)
+            buffer.length = 0
           }
         }
 
         if (processedData.status === 'valid' && processedData.dataType === 'station') {
           results.dataType = 'station'
-          const station = new Station(processedData.data)
-          try {
-            await station.save()
-            results.recordAdded++
-          } catch (err) {
-            if (err.code === 11000) {
-              results.duplicateRecord++
-            }
+          //const station = new Station(processedData.data)
+          buffer.push(new Trip(processedData.data))
+          if (buffer.length >= batchSize) {
+            await insertBatch(buffer, Station)
+            buffer.length = 0
           }
         }
+
         callback()
       },
     })
@@ -62,9 +71,15 @@ const processFile = async (csvFile) => {
     const readStream = fs.createReadStream(csvFile)
     readStream.pipe(csv()).pipe(transformStream)
 
-    transformStream.on('finish', () => {
+    transformStream.on('finish', async () => {
+      // Insert any remaining records in the buffer
+      if (buffer.length > 0) {
+        await insertBatch(buffer, buffer[0] instanceof Trip ? Trip : Station)
+      }
+
       logger.info(results)
       resolve(results)
+      stationDataProcess()
     })
       .on('error', (err) => {
         logger.error(err)
