@@ -57,7 +57,7 @@ const processFile = async (csvFile) => {
         if (processedData.status === 'valid' && processedData.dataType === 'station') {
           results.dataType = 'station'
           //const station = new Station(processedData.data)
-          buffer.push(new Trip(processedData.data))
+          buffer.push(new Station(processedData.data))
           if (buffer.length >= batchSize) {
             await insertBatch(buffer, Station)
             buffer.length = 0

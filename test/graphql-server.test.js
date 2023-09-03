@@ -70,7 +70,7 @@ describe('Test GraphQL server for returning Stations', () => {
       variables: { page: 1, rows:5, sortParam: 'stationId', sortOrder: 1 },
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.Stations[3].stationId).toBe('010')
+    expect(response.body.singleResult.data?.Stations[3].stationId).toBe('009')
     expect(response.body.singleResult.data?.Stations[0].capacity).toBe(18)
     expect(response.body.singleResult.data?.Stations[0]).toHaveProperty('stationId')
     expect(response.body.singleResult.data?.Stations[0]).toHaveProperty('stationName')
@@ -84,7 +84,7 @@ describe('Test GraphQL server for returning Stations', () => {
       query: 'query STATION { StationCount }',
     })
     expect(response.body.singleResult.errors).toBeUndefined()
-    expect(response.body.singleResult.data?.StationCount).toBe(13)
+    expect(response.body.singleResult.data?.StationCount).toBe(15)
   })
 
   test('Read station list', async () => {
@@ -94,7 +94,7 @@ describe('Test GraphQL server for returning Stations', () => {
     expect(response.body.singleResult.errors).toBeUndefined()
     expect(response.body.singleResult.data?.StationList[5]).toHaveProperty( 'stationId' )
     expect(response.body.singleResult.data?.StationList[5]).toHaveProperty( 'stationName' )
-    expect(response.body.singleResult.data?.StationList).toHaveLength(13)
+    expect(response.body.singleResult.data?.StationList).toHaveLength(15)
   })
 })
 

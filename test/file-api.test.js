@@ -36,7 +36,7 @@ describe('test file handeling', () => {
 
   test('Only valid stations add to the database', async() => {
     const stations = await Station.find({})
-    expect(stations).toHaveLength(13)
+    expect(stations).toHaveLength(15)
   })
 })
 
